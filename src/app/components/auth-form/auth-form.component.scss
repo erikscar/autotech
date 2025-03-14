@@ -1,0 +1,107 @@
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
+
+form {
+  width: 75%;
+  .form-title {
+    font-size: 48px;
+  }
+
+  .form-subtitle {
+    font-weight: bold;
+  }
+
+  .google-login {
+    padding: 0.5rem 1.75rem;
+    border: 0.5px solid $grey-color;
+    border-radius: 0.25rem;
+    color: $grey-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+
+    img {
+      width: 1.5rem;
+    }
+  }
+
+  .email-signin {
+    @include flex-center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+
+    hr {
+      border: 1px dashed $grey-color;
+      width: 20%;
+    }
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    margin: .75rem 0 1rem 0;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1x solid $grey-color;
+    outline: 0;
+
+    &::placeholder {
+      font-size: 16px;
+      color: $grey-color;
+    }
+  }
+
+  .checkbox-group {
+    @include flex-center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    .checkbox-wrapper {
+        @include flex-center;
+        gap: .5rem;
+
+        input[type="checkbox"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            border: 1px solid $grey-color;
+            appearance: none;
+            position: relative;
+            background-color: #fff;
+            border-radius: .2rem;
+            padding: .5rem;
+            &:checked {
+                background-color: $primary-color;
+            }
+
+           &::after {
+            content: "✓";
+            position: absolute;
+            top: -1px;
+            left: 4px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+           }
+        }
+    }
+
+    .forgot-password {
+      color: $primary-color;
+      font-weight: bold;
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    border: 0;
+    border-radius: .25rem;
+    padding: .75rem;
+    background-color: $primary-color;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
