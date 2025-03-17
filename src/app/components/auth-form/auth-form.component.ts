@@ -1,5 +1,5 @@
   import { CommonModule } from '@angular/common';
-  import { Component } from '@angular/core';
+  import { Component, Input } from '@angular/core';
   import { AuthService } from '../../services/auth.service';
   import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
     styleUrl: './auth-form.component.scss'
   })
   export class AuthFormComponent {
+    @Input() isRegister: boolean = true;
+    
     form: FormGroup;
     constructor(private authService: AuthService, private router: Router) {
       this.form = new FormGroup({
@@ -30,7 +32,7 @@ import { Router } from '@angular/router';
           console.log(res.message)
         },
         error: (error) => {
-          console.error('Erro no login', error);
+          console.error('Error on Register', error);
         }
       });
     }
