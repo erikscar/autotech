@@ -96,6 +96,7 @@ form {
 
   .submit-btn {
     width: 100%;
+    margin-top: 1rem;
     border: 0;
     border-radius: .25rem;
     padding: .75rem;
@@ -103,5 +104,12 @@ form {
     color: #fff;
     font-weight: bold;
     font-size: 16px;
+    cursor: pointer;
+    transition: 1s;
+
+    &:hover {
+      transform: scale(1.03);
+      opacity: 0.8;
+    }
   }
 }

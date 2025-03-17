@@ -1,4 +1,4 @@
-<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
     <h1 class="form-title">Registrar-se</h1>
     <p class="form-subtitle">Gerencie Seus Pedidos Automobilísticos</p>
     <div class="google-login">
@@ -12,23 +12,26 @@
         <hr>
     </div>
 
-    <label for="">Nome</label>
-    <input type="text" placeholder="Nome" id="name" name="name" ngModel>
+    <label for="email">Email</label>
+    <input type="text" placeholder="email@gmail.com" formControlName="email">
 
-    <label for="">Email</label>
-    <input type="text" placeholder="email@gmail.com" id="email" name="email" ngModel>
+    <label for="hashPassword">Senha</label>
+    <input type="password" placeholder="••••••••••••••" formControlName="hashPassword">
 
-    <label for="">Senha</label>
-    <input type="text" placeholder="••••••••••••••" id="hashPassword" name="hashPassword" ngModel>
+    <label for="">Confirme sua Senha</label>
+    <input type="password" placeholder="••••••••••••••" formControlName="confirmPassword">
+    
+    <div *ngIf="form?.errors?.['missmatch'] && form.touched">
+        <p [ngStyle]>Password must match</p>
+    </div>
 
-
-    <div class="checkbox-group">
+    <!-- <div class="checkbox-group">
         <div class="checkbox-wrapper">
             <input type="checkbox" name="" id="">
             <p>Lembre de Mim</p>
         </div>
         <p class="forgot-password">Esqueceu a Senha?</p>
-    </div>
+    </div> -->
 
     <button class="submit-btn" type="submit">Registrar</button>
 </form>
