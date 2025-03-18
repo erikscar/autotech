@@ -13,20 +13,22 @@
   })
   export class AuthFormComponent implements OnInit {
     @Input() isRegister: boolean = false;
-    
+    isChecked: boolean = false;
+
     form: FormGroup;
     constructor(private authService: AuthService, private router: Router) {
 
       this.form = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         hashPassword: new FormControl('', [Validators.required]),
-        confirmPassword: new FormControl('', [Validators.required])
+        confirmPassword: new FormControl('', [Validators.required]),
+        rememberme: new FormControl(false)
       },
     {validators: this.passwordMatchValidator})
     }
 
     ngOnInit(): void {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token');
 
       if(token) {
         let decodedJwt = jwtDecode<JwtPayload>(token)
@@ -43,13 +45,15 @@
     }
 
     onSubmit(form: FormGroup) {
-      const { confirmPassword, ...formData } = form.value;
+      const { confirmPassword, rememberme, ...formData } = form.value;
 
       if(this.isRegister) {
+
         this.authService.register(formData).subscribe({
           next: (res) => {
+            sessionStorage.setItem('token', res.token)
             this.router.navigate(['/home'])
-            localStorage.setItem('token', res.token)
+
           },
           error: (error) => {
             console.error('Error on Register', error);
@@ -58,9 +62,16 @@
       } else {
         this.authService.login(formData).subscribe( {
           next: (res) => {
+            console.log(rememberme);
+            if(rememberme) {
+              localStorage.setItem('token', res.token)
+
+            } else {
+              sessionStorage.setItem('token', res.token)
+
+            }
+
             this.router.navigate(['/home'])
-            console.log(res)
-            localStorage.setItem('token', res.token)
           },
           error: (error) => {
             console.log("Error: " + error.message);

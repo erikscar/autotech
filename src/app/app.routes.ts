@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './pages/register/register.component';
+import { AuthComponent } from './pages/auth/auth.component';
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-    { path:"", component: RegisterComponent, pathMatch: 'full' },
+    { path:"", component: AuthComponent, pathMatch: 'full' },
     { path:"home", component: HomeComponent}
 ];

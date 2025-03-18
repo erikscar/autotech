@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-auth',
   imports: [AuthFormComponent],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  templateUrl: './auth.component.html',
+  styleUrl: './auth.component.scss'
 })
-export class RegisterComponent {
+export class AuthComponent {
 
 }

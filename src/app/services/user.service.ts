@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUser(): Observable<any> {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
     const headers = new HttpHeaders({Authorization: `Bearer ${ token }`})
 
