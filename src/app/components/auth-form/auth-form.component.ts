@@ -1,8 +1,9 @@
   import { CommonModule } from '@angular/common';
-  import { Component, Input } from '@angular/core';
+  import { Component, Input, OnInit } from '@angular/core';
   import { AuthService } from '../../services/auth.service';
   import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+  import { jwtDecode, JwtPayload } from 'jwt-decode';
+  import { Router } from '@angular/router';
 
   @Component({
     selector: 'app-auth-form',
@@ -10,11 +11,12 @@ import { Router } from '@angular/router';
     templateUrl: './auth-form.component.html',
     styleUrl: './auth-form.component.scss'
   })
-  export class AuthFormComponent {
-    @Input() isRegister: boolean = true;
+  export class AuthFormComponent implements OnInit {
+    @Input() isRegister: boolean = false;
     
     form: FormGroup;
     constructor(private authService: AuthService, private router: Router) {
+
       this.form = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         hashPassword: new FormControl('', [Validators.required]),
@@ -23,18 +25,49 @@ import { Router } from '@angular/router';
     {validators: this.passwordMatchValidator})
     }
 
+    ngOnInit(): void {
+      const token = localStorage.getItem('token');
+
+      if(token) {
+        let decodedJwt = jwtDecode<JwtPayload>(token)
+        let date = new Date();
+
+        if(decodedJwt.exp && decodedJwt.exp * 1000 < date.getTime()) {
+          this.router.navigate(['/'])
+
+        } else {
+          this.router.navigate(['/home'])
+        }
+      }
+      
+    }
+
     onSubmit(form: FormGroup) {
       const { confirmPassword, ...formData } = form.value;
 
-      this.authService.register(formData).subscribe({
-        next: (res) => {
-          this.router.navigate(['/home'])
-          console.log(res.message)
-        },
-        error: (error) => {
-          console.error('Error on Register', error);
-        }
-      });
+      if(this.isRegister) {
+        this.authService.register(formData).subscribe({
+          next: (res) => {
+            this.router.navigate(['/home'])
+            localStorage.setItem('token', res.token)
+          },
+          error: (error) => {
+            console.error('Error on Register', error);
+          }
+        });
+      } else {
+        this.authService.login(formData).subscribe( {
+          next: (res) => {
+            this.router.navigate(['/home'])
+            console.log(res)
+            localStorage.setItem('token', res.token)
+          },
+          error: (error) => {
+            console.log("Error: " + error.message);
+          }
+        })
+      }
+      
     }
 
     passwordMatchValidator(control: AbstractControl) {

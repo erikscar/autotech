@@ -26,7 +26,7 @@
     <label *ngIf="isRegister" [ngStyle]="{display: 'block'}" for="">Confirme sua Senha</label>
     <input *ngIf="isRegister" [ngStyle]="{display: 'block'}" type="password" placeholder="••••••••••••••" formControlName="confirmPassword">
     
-    <div *ngIf="form?.errors?.['missmatch'] && form.touched">
+    <div *ngIf="isRegister && form?.errors?.['missmatch'] && form.touched">
         <p class="error-message">As Senhas Precisam ser Iguais!</p>
     </div>
 
@@ -38,5 +38,5 @@
         <p class="forgot-password">Esqueceu a Senha?</p>
     </div> 
 
-    <button class="submit-btn" [disabled]="form.errors?.['missmatch']" type="submit">{{ isRegister ? 'Registrar-se': 'Login'}}</button>
+    <button class="submit-btn" [disabled]=" isRegister && form.errors?.['missmatch']" type="submit">{{ isRegister ? 'Registrar-se': 'Login'}}</button>
 </form>
