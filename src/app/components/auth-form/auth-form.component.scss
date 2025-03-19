@@ -13,7 +13,7 @@ form {
     font-weight: bold;
   }
 
-  .google-login {
+  .google-login-btn {
     padding: 0.5rem 1.75rem;
     border: 0.5px solid $grey-color;
     border-radius: 0.25rem;
@@ -23,6 +23,13 @@ form {
     align-items: center;
     gap: 1rem;
     margin: 1.5rem 0;
+    width: 100%;
+    cursor: pointer;
+    background-color: #fff;
+    transition: 1s;
+    &:hover {
+      transform: scale(1.03)
+    }
 
     img {
       width: 1.5rem;

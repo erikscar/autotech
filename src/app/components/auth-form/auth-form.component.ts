@@ -1,5 +1,5 @@
   import { CommonModule } from '@angular/common';
-  import { Component, Input, OnInit } from '@angular/core';
+  import {  Component, Input, OnInit } from '@angular/core';
   import { AuthService } from '../../services/auth.service';
   import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
   import { jwtDecode, JwtPayload } from 'jwt-decode';
@@ -9,12 +9,10 @@
     selector: 'app-auth-form',
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './auth-form.component.html',
-    styleUrl: './auth-form.component.scss'
+    styleUrl: './auth-form.component.scss',
   })
   export class AuthFormComponent implements OnInit {
     @Input() isRegister: boolean = false;
-    isChecked: boolean = false;
-
     form: FormGroup;
     constructor(private authService: AuthService, private router: Router) {
 
@@ -29,7 +27,6 @@
 
     ngOnInit(): void {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
       if(token) {
         let decodedJwt = jwtDecode<JwtPayload>(token)
         let date = new Date();
@@ -41,8 +38,9 @@
           this.router.navigate(['/home'])
         }
       }
-      
-    }
+    
+    } 
+
 
     onSubmit(form: FormGroup) {
       const { confirmPassword, rememberme, ...formData } = form.value;
@@ -81,8 +79,11 @@
       
     }
 
+
     passwordMatchValidator(control: AbstractControl) {
       return control.get('hashPassword')?.value === 
       control.get('confirmPassword')?.value ? null: { missmatch: true }
     }
+
+  
   }
