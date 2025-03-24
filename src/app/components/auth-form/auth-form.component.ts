@@ -1,21 +1,22 @@
   import { CommonModule } from '@angular/common';
-  import {  Component, Input, OnInit } from '@angular/core';
+  import {  Component, CUSTOM_ELEMENTS_SCHEMA, inject, Input, OnInit } from '@angular/core';
   import { AuthService } from '../../services/auth.service';
   import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
   import { jwtDecode, JwtPayload } from 'jwt-decode';
   import { Router } from '@angular/router';
 
+
   @Component({
     selector: 'app-auth-form',
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, ],
     templateUrl: './auth-form.component.html',
     styleUrl: './auth-form.component.scss',
   })
   export class AuthFormComponent implements OnInit {
     @Input() isRegister: boolean = false;
     form: FormGroup;
-    constructor(private authService: AuthService, private router: Router) {
-
+    
+    constructor(private authService: AuthService, private router: Router) {      
       this.form = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         hashPassword: new FormControl('', [Validators.required]),
@@ -26,6 +27,7 @@
     }
 
     ngOnInit(): void {
+
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
       if(token) {
         let decodedJwt = jwtDecode<JwtPayload>(token)
@@ -38,7 +40,6 @@
           this.router.navigate(['/home'])
         }
       }
-    
     } 
 
 
@@ -85,5 +86,8 @@
       control.get('confirmPassword')?.value ? null: { missmatch: true }
     }
 
-  
-  }
+    googlelogin() {
+      this.authService.googleLogin();
+    }
+
+}
