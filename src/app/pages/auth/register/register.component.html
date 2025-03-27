@@ -1,0 +1,39 @@
+<div class="auth-container">
+    <img src="/main.png" alt="auth-img">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+        <h1 class="form-title">Registrar-se</h1>
+        <p class="form-subtitle">Gerencie Seus Itens em Estoque</p>
+    
+        <div id="google-login-btn" class="google-login-btn" (click)="googleLogin()">
+            <img src="/google-icon.png" alt="google-icon">
+            <p>Continue com o Google</p>
+        </div>
+    
+        <div class="email-signin">
+            <p>----------------</p>
+            <p>ou Continue com seu Email</p>
+            <p>----------------</p>
+        </div>
+    
+        <label for="email">Email</label>
+        <input type="text" placeholder="email@gmail.com" formControlName="email">
+    
+        <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+            <p class="error-message">Email Inválido!</p>
+        </div>
+    
+        <label for="hashPassword">Senha</label>
+        <input type="password" placeholder="••••••••••••••" formControlName="hashPassword">
+        
+        <label for="">Confirme sua Senha</label>
+        <input type="password" placeholder="••••••••••••••" formControlName="confirmPassword">
+        
+        <div *ngIf="form?.errors?.['missmatch'] && form.touched">
+            <p class="error-message">As Senhas Precisam ser Iguais!</p>
+        </div>
+
+        <a class="existing-user" routerLink="/login">Já Possui uma Conta? Faça Login!</a>
+    
+        <button type="submit" class="submit-btn" [disabled]="form.errors">Registrar-se</button>
+    </form>
+</div>

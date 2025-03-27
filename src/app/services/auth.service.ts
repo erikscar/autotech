@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { authConfig } from '../../authconfig';
 
 @Injectable({
@@ -13,11 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient, private oauthService: OAuthService) {
     this.oauthService.configure(authConfig)
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
-   }
-
-   googleLogin() {
-    this.oauthService.initLoginFlow();
-   }
+  }
 
   register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data)
@@ -25,12 +21,15 @@ export class AuthService {
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data)
-  } 
+  }
 
-   googlePostLogin(): Observable<any> {
-    const accessToken = this.oauthService.getIdToken();
+  googleLogin() {
+    this.oauthService.initLoginFlow();
+  }
 
-     return this.http.post(`${this.apiUrl}/google-login`, { credential : accessToken })
-   }
-  
-}
+  googlePostLogin(): Observable<any> {
+    const accessToken = this.oauthService.getIdToken(); 
+    return this.http.post(`${this.apiUrl}/google-login`, { credential: accessToken });
+  }
+
+} 

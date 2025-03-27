@@ -1,18 +1,18 @@
 <div class="auth-container">
-    <img src="/auth-img.jpeg" alt="auth-img">
+    <img src="/main.png" alt="auth-img">
     <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
-        <h1 class="form-title">{{ isRegister ? 'Registrar-se': 'Fazer Login'}}</h1>
+        <h1 class="form-title">Fazer Login</h1>
         <p class="form-subtitle">Gerencie Seus Itens em Estoque</p>
     
-        <div id="google-login-btn" class="google-login-btn" (click)="googlelogin()">
+        <div id="google-login-btn" class="google-login-btn" (click)="googleLogin()">
             <img src="/google-icon.png" alt="google-icon">
             <p>Continue com o Google</p>
         </div>
     
         <div class="email-signin">
-            <p>------</p>
+            <p>----------------</p>
             <p>ou Continue com seu Email</p>
-            <p>------</p>
+            <p>----------------</p>
         </div>
     
         <label for="email">Email</label>
@@ -25,14 +25,11 @@
         <label for="hashPassword">Senha</label>
         <input type="password" placeholder="••••••••••••••" formControlName="hashPassword">
         
-        <label *ngIf="isRegister" [ngStyle]="{display: 'block'}" for="">Confirme sua Senha</label>
-        <input *ngIf="isRegister" [ngStyle]="{display: 'block'}" type="password" placeholder="••••••••••••••" formControlName="confirmPassword">
-        
-        <div *ngIf="isRegister && form?.errors?.['missmatch'] && form.touched">
+        <div *ngIf="form?.errors?.['missmatch'] && form.touched">
             <p class="error-message">As Senhas Precisam ser Iguais!</p>
         </div>
     
-        <div class="checkbox-group" *ngIf="!isRegister">
+        <div class="checkbox-group" >
             <div class="checkbox-wrapper">
                 <input type="checkbox" name="" id="" formControlName="rememberme">
                 <p>Lembre de Mim</p>
@@ -40,12 +37,8 @@
             <p class="forgot-password">Esqueceu a Senha?</p>
         </div> 
     
-        <a *ngIf="!isRegister; else loginBtn" (click)="this.isRegister = !this.isRegister" class="no-account">Não Possui uma Conta? Crie uma!</a>
+        <a routerLink="/" class="no-account">Não Possui uma Conta? Crie uma!</a>
     
-        <ng-template #loginBtn >
-            <a class="no-account" (click)="this.isRegister = !this.isRegister">Já Possui uma Conta? Faça Login!</a>
-        </ng-template>
-    
-        <button class="submit-btn" [disabled]=" isRegister && form.errors?.['missmatch']" type="submit">{{ isRegister ? 'Registrar-se': 'Login'}}</button>
+        <button class="submit-btn" [disabled]="form.errors?.['missmatch']" type="submit">Login</button>
     </form>
 </div>

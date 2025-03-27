@@ -1,0 +1,88 @@
+@use "../../../styles/variables" as *;
+@use "../../../styles/mixins" as *;
+
+.auth-container {
+    @include container-base();
+
+    img {
+        width: 52%;
+        height: 97vh;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+    }
+
+    form {
+        width: 25%;
+      
+        .form-title {
+          font-size: 3rem;
+        }
+      
+        .form-subtitle {
+          font-weight: bold;
+        }
+      
+        .google-login-btn {
+          padding: 0.5rem 1.75rem;
+          border: 0.5px solid $grey-color;
+          border-radius: 0.25rem;
+          color: $grey-color;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          margin: 1.5rem 0;
+          width: 100%;
+          cursor: pointer;
+          background-color: #fff;
+          transition: 1s;
+          &:hover {
+            transform: scale(1.03)
+          }
+      
+          img {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+      
+        .email-signin {
+          @include flex-center;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+      
+          .bar {
+            border: 1px dashed $grey-color;
+            width: 20%;
+          }
+        }
+      
+        label {
+          font-weight: bold;
+        }
+      
+        input {
+          @include input-base();
+        }
+      
+        .error-message {
+          font-weight: bold;
+          color: #ff0000;
+          display: block;
+          margin-bottom: .5rem;
+        }
+      
+        a {
+          color: $primary-color;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      
+      
+        .submit-btn {
+         @include button-base();
+        }
+      }
+
+
+}

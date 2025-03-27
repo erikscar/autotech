@@ -1,43 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import { switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  imports: [CommonModule]
 })
 export class HomeComponent implements OnInit {
-  user: any;
+  data: any;
 
-  constructor(private userService: UserService, private authService: AuthService) {}
+  constructor(private userService: UserService, private authService: AuthService, private oauthService: OAuthService) { }
 
-  ngOnInit(): void {
-    this.authService.googlePostLogin().pipe(
-      switchMap((res) => {
-        localStorage.setItem('token', res.tokenId);
-        return this.userService.getUser(); // Aguarda login antes de buscar usuário
-      })
-    ).subscribe({
-      next: (data) => {
-        this.user = data;
-      },
-      error: (err) => {
-        console.error("Erro ao obter usuário:", err);
+  ngOnInit() {
+    sessionStorage.removeItem('id_token');
+
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+      if (this.oauthService.hasValidIdToken()) {
+        this.authService.googlePostLogin().subscribe({
+          next: (res) => {
+            localStorage.setItem('token', res.token);
+            this.getUser();
+          },
+          error: (err) => {
+            console.error('Erro ao fazer login com o Google:', err);
+          }
+        });
+      } else {
+        this.getUser();
       }
     });
   }
-  
 
-  getUser(): void {
+  getUser() {
     this.userService.getUser().subscribe({
-      next: (data) => {
-        this.user = data;
+      next: (response) => {
+        this.data = response
       },
-      error: (err) => {
-        console.error("Erro ao obter dados do usuário: ", err);
-      }
-    });
+      error(err) {
+        console.log(err);
+      },
+    })
   }
 }
+
